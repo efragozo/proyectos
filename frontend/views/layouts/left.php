@@ -8,7 +8,7 @@ use frontend\models\Tipousuario;
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user.gif" class="img-circle" alt="User Image"/>
+                <img src="/advanced/frontend/web/images/user.gif" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <!-- mostramos el usuario logueado, con los echos solo usamos codigo html dentro de php -->

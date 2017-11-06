@@ -14,19 +14,20 @@ use frontend\models\Proyectos;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div class="proyectos-form col-lg-12"> 
-<div class="col-lg-6">
-    <?php $form = ActiveForm::begin([
-            'id' => 'proyecto-update3',
-            'enableAjaxValidation' => true        
-          ]); 
-    ?>  
+        	<?php $form = ActiveForm::begin([
+                    'id' => 'proyecto-update3',
+                    'enableAjaxValidation' => true        
+                  ]); 
+            ?>  
+<div class="col-md-6">
+    
     <?php //$form->field($model, 'finalizado')->textInput() ?>
      
-   <?php 
-    	echo '<b> <br>';
-            echo "¿El Cronograma se ha impreso?";
-        echo '</b><br>';
-	?>
+           <?php 
+            	echo '<b> <br>';
+                    echo "¿El Cronograma se ha impreso?";
+                echo '</b><br>';
+        	?>
     <?= $form->field($model, 'imprcronograma')->widget(SwitchBox::className(),[                
             'options' => [
                 'label' => false
@@ -37,7 +38,7 @@ use frontend\models\Proyectos;
                 'onColor' => 'success', 
                 'offColor' => 'warning', 
                 'onText' => 'Impreso', 
-                'offText' => 'No Impreso']      
+                'offText' => 'No Imp.',]      
             ])->label(false);
      ?>
 
@@ -45,13 +46,13 @@ use frontend\models\Proyectos;
  	
     <?= $form->field($model, 'entregables')->textInput() ?>
     </div>
-    <div class="col-lg-6">
+    <div class="col-md-6">
     <?php //$form->field($model, 'finalizado')->textInput() ?>
-	<?php 
-    	echo '<b><br>';
-            echo 'Fecha Orden de Inicio';
-        echo '</b><br>';
-	?>
+    	<?php 
+        	echo '<b><br>';
+                echo 'Fecha Orden de Inicio';
+            echo '</b><br>';
+    	?>
 	<!-- Utilizamos jui para usar DatePicker -->
     <?= $form->field($model, 'fechaSolic')->widget(\yii\jui\DatePicker::classname(), [
         //'language' => 'es',
@@ -60,7 +61,7 @@ use frontend\models\Proyectos;
          ])->label(false)
     ?>
 	<!-- fin de este control -->
-	<!-- Usamos el siuiente codigo para agregar una descripción al compo -->
+	<!-- Usamos el siuiente codigo para agregar una descripción al campo -->
 	<?php 
     	echo '<b>';
             echo 'Reactivar el proyecto';

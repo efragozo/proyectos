@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\bootstrap\ActiveForm;
 use yii\filters\VerbFilter;
+use frontend\models\Proyectos;
 
 /**
  * UrlsController implements the CRUD actions for Urls model.
@@ -64,23 +65,32 @@ class UrlsController extends Controller
      * @return mixed
      */
     public function actionCreate($id)
-    {
+    {    
         $model = new Urls();
-        $ruta = Yii::getAlias('@frontHome').'/uploads/';
+        
+        $ruta = Yii::getAlias('@root').'/uploads/';
         if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
             Yii::$app->response->format = 'json';
             return ActiveForm::validate($model);
         }
-        
+        //Traemos el modelo de proyectos
+        $proyecto = Proyectos::findOne($id);
+            //         echo'<pre>';
+            //         print_r($proyecto);
+            //         exit();
         if ($model->load(Yii::$app->request->post())) {
+            
             
              $archivo = UploadedFile::getInstance($model, 'urlproyecto');
              
              if(!is_null($archivo)){
-                 $this->uploadFile($ruta, $archivo, $model);
+                 $resultado = $this->uploadFile($ruta, $archivo, $model, $proyecto);
+                 //Indicamos la accion que vamos a hacer en el modelo de proyectos
+                 $resultado['proyecto']->update();
+                 
              }
              
-             $model->save();
+             $resultado['model']->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -91,13 +101,16 @@ class UrlsController extends Controller
         }
     }
 
-    private function uploadFile($ruta,$archivo ,$model)
+    private function uploadFile($ruta,$archivo ,$model, $proyecto)
     {
+        
         $archivo->name = 'CRONOGRAMA-'.$model->proyecto.'.'.$archivo->extension;
         $model->urlproyecto = $archivo->name;       
         $archivo->saveAs($ruta.$archivo);
+        //en el modelo de proyectos le decimos que haga una actualizacion de los datos y el campo cronograma le ponga 1
+        $proyecto->cronograma = 1;
         
-        return $model;
+        return array('model' => $model, 'proyecto' => $proyecto);
     }
     /**
      * Updates an existing Urls model.

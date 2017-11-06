@@ -24,8 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?php //Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php /*Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
+             'class' => 'btn btn-danger',
+             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
@@ -88,8 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'finalizado',
                 'value'=> $model-> proyectoFinalizado($model->finalizado),                
-            ],
-            
+            ],            
             //'fechaSolic',
             //'rehabilitado',
         ],
@@ -109,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
                              .find("#contenido")
                              .load($(this).attr("value"));
                               $(".modal-lg").css("width","1024px");',])
-        ]),
+            ]),
              'tooltip'=>'this tooltip description',
              'title'=>'Vista general de proyecto',
              'footer'=>'Datos obtenidos',
@@ -174,12 +173,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'raw',
                 'value'=> $model-> imprimeCronograma(Proyectos::findOne($model->id)->imprcronograma)
             ],
-            //'cronograma',
-            (count($cronograma)) == 0 ?
+            //'cronograma',            
+           
+            (Proyectos::findOne($model->id)->cronograma) == 0 ? //este signo de cierre de interrogación significa si o if
             ['attribute'=>'cronograma',
                 'format'=>'raw',
                 'value'=>Proyectos::findOne($model->id)->cronograma.' '.
-                 Html::a('Subir cronograma', '#', [
+                Html::a('Subir cronograma', '#', [
                     'id' => '_formFechaFin',
                     'class' => 'btn btn-success',
                     'value' => Yii::$app->urlManager->createUrl('urls/create?id='.$model->id),
@@ -187,13 +187,14 @@ $this->params['breadcrumbs'][] = $this->title;
                          .find("#contenido")
                          .load($(this).attr("value"));
                           $(".modal-lg").css("width","1024px");',])
-            ] : 
+            ] : //si no o else, sisgnifican eso dos puntos
             //<a href="<?= Yii::getAlias('@frontHome').'/uploads/'.$model->urlproyecto  ?<" download> Ver Archivo</a>             
-            ['attribute'=>'cronograma',
+            [
+                'attribute'=>'cronograma',
                 'format'=>'raw',
                 'value'=> Html::a('&nbsp;Download',                    
-                          [Yii::getAlias('@frontHome').'/uploads/'.$url2->urlproyecto], 
-                          ['id' => 'descarga-cronograma','class'=>'fa fa-download'])
+                          Yii::getAlias('@frontHome').'/uploads/'.$url2->urlproyecto, 
+                          ['id' => 'descarga-cronograma','class'=>'fa fa-download', 'download'=>true])
             ],
             'entregables',
             //'finalizado',
@@ -203,7 +204,12 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <?php \insolita\wgadminlte\LteBox::end()?>
 	</div> 
+	<?php 
+// 	   echo'<pre>';
+// 	   print_r(scandir(Yii::getAlias('@frontHome/frontend/web/uploads/')));
+	   
 	
+	?>
 	</div>
 	<?php
             Modal::begin([

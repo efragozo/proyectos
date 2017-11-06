@@ -10,7 +10,7 @@ use frontend\models\Tipousuario;
 
 <header class="main-header">
 <!-- <img src=" $directoryAsset /img/logoisesproy.png" class="img-circle" alt="User Image"/> Yii::$app->name -->
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg img-circle">' .'<img src="'.$directoryAsset .'/img/logoisesproy.png' . '" width="20%"/></span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg img-circle">' .'<img src="/advanced/frontend/web/images/logoisesproy.png' . '" width="20%"/></span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -65,7 +65,7 @@ use frontend\models\Tipousuario;
                                         ?>
                                         <?php echo "'>" ?> 
                                         <div class="pull-left">                                                                              
-                                            	<img src="<?= $directoryAsset ?>/img/logoisesproy.png" class="img-circle"
+                                            	<img src="/advanced/frontend/web/images/logoisesproy.png" class="img-circle"
                                              alt="User Image"/>
                                         </div>
                                             <!-- traemos del foreach el nombre del proyecto -->
@@ -225,7 +225,7 @@ use frontend\models\Tipousuario;
                 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= $directoryAsset ?>/img/user.gif" class="user-image" alt="User Image"/>
+                        <img src="/advanced/frontend/web/images/user.gif" class="user-image" alt="User Image"/>
                         <span class="hidden-xs">
                         <!-- mostramos el nombre del usuario cuando se loguea -->
                              <?php 
@@ -238,7 +238,7 @@ use frontend\models\Tipousuario;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= $directoryAsset ?>/img/avatar04.png" class="img-circle"
+                            <img src="/advanced/frontend/web/images/avatar04.png" class="img-circle"
                                  alt="User Image"/>
                             <p>
                                <?php                                

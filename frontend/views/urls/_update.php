@@ -16,7 +16,8 @@ use kartik\file\FileInput;
             'id' => 'proyecto-update',
             'enableAjaxValidation' => true,
             'options' => ['enctype' => 'multipart/form-data'],        
-          ]); ?>
+          ]); 
+    ?>
 
 	<h3><?= 'Proyecto Id: ' . $id?></h3>
     <?= $form->field($model, 'proyecto')->hiddenInput(['value' => $id])->label(false) ?>

@@ -3,12 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\Clientes;
+use frontend\models\Modalidadproy;
 use frontend\models\Proyectos;
 use frontend\models\ProyectosSearch;
+use frontend\models\Tiposproyectos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\widgets\ActiveForm;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use frontend\models\Urls;
 
 /**
@@ -39,7 +43,6 @@ class ProyectosController extends Controller
     {
         $searchModel = new ProyectosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -55,8 +58,9 @@ class ProyectosController extends Controller
     {
         $model = $this->findModel($id);
         $cronograma = Urls::find()->where(['proyecto' => $model->id])->one();
-
-        
+        // $tipoUser = Tipousuario::find()->select('descripcion')->where(['id'=>$idUser])->one()->descripcion;
+        /*$cronograma2=Proyectos::findOne($model->id)->cronograma;
+        print_r($cronograma2);*/
         return $this->render('view', [
             'model' => $model,
             'cronograma' => $cronograma
@@ -71,17 +75,27 @@ class ProyectosController extends Controller
     public function actionCreate()
     {
         $model = new Proyectos();
+    
+        $dataTproy = ArrayHelper::map(Tiposproyectos::find()->all(), 'id', 'tipo');
+
+        $dataCli = ArrayHelper::map(Clientes::find()->all(), 'id', 'nombreCli');
+        
+        $dataModalidad = ArrayHelper::map(Modalidadproy::find()->all(), 'ccof', 'modalidad');
         
         if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
             Yii::$app->response->format = 'json';
             return ActiveForm::validate($model);
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,
+                'dataTproy' => $dataTproy,
+                'dataCli' => $dataCli,
+                'dataModalidad' => $dataModalidad
             ]);
         }
     }
@@ -95,6 +109,11 @@ class ProyectosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $dataTproy = ArrayHelper::map(Tiposproyectos::find()->all(), 'id', 'tipo');
+        
+        $dataCli = ArrayHelper::map(Clientes::find()->all(), 'id', 'nombreCli');
+        
+        $dataModalidad = ArrayHelper::map(Modalidadproy::find()->all(), 'ccof', 'modalidad');
 
         if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
             Yii::$app->response->format = 'json';
@@ -106,6 +125,9 @@ class ProyectosController extends Controller
         } else {
             return $this->renderAjax('update', [
                 'model' => $model,
+                'dataTproy' => $dataTproy,
+                'dataCli' => $dataCli,
+                'dataModalidad' => $dataModalidad
             ]);
         }
     }
@@ -157,7 +179,7 @@ class ProyectosController extends Controller
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+            } else {
             return $this->renderAjax('update3', [
                 'model' => $model,
             ]);

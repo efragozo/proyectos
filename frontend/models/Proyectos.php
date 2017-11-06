@@ -3,6 +3,8 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "proyectos".
@@ -53,6 +55,25 @@ class Proyectos extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            
+                 [
+                    'class' => AttributeBehavior::className(),
+                    'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => 'cronograma',
+                       
+                    ],
+                    'value' => function () {
+                    
+                    return 0;
+                    },
+                 ],
+             
+            
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -91,7 +112,7 @@ class Proyectos extends \yii\db\ActiveRecord
         {
             return $this->hasOne(Clientes::className(),['id'=>'idCliente']);
         }
-    /**
+    /* *
      * @inheritdoc
      * @return ProyectosQuery the active query used by this AR class.
      */
@@ -115,8 +136,8 @@ class Proyectos extends \yii\db\ActiveRecord
             if ($data==1)
             {
                 return ('Finalizado');
-            }
-            else {
+                }
+                else {
                 return ('Activo');
             }
         }

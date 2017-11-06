@@ -13,18 +13,20 @@ use frontend\models\Modalidadproy;
 ?>
 
 <div class="proyectos-form">
-<div class="col-lg-6">
-    <?php $form = ActiveForm::begin([
+<?php $form = ActiveForm::begin([
             'id' => 'proyecto-update',
+            'action' => 'update?id='.$model->id,
             'enableAjaxValidation' => true
         
           ]); 
     ?>
+<div class="col-lg-6">
+    
 
     <?= $form->field($model, 'nombreProyecto')->textInput(['maxlength' => true]) ?>
     
     <!-- Creamos dropdownlist con los clientes -->
-    <?php $dataCli = Clientes::find()->all(); $dataCli = ArrayHelper::map($dataCli, 'id', 'nombreCli')?>
+    
     <?= $form->field($model, 'idCliente')->dropDownList($dataCli,['prompt'=>'Select...']);?>
     
     <?php //$form->field($model, 'idCliente')->textInput() ?>
@@ -36,7 +38,7 @@ use frontend\models\Modalidadproy;
     <?php //$form->field($model, 'fechaFin')->textInput() ?>
     
     <!-- Creamos dropdownlist con los tipos de proyectos -->
-    <?php $dataTproy = Tiposproyectos::find()->all(); $dataTproy = ArrayHelper::map($dataTproy, 'id', 'tipo')?>    
+       
     <?= $form->field($model, 'tipoProyecto')->dropDownList($dataTproy, ['prompt'=>'Select...']);?>
     </div>
 <div class="col-lg-6">
@@ -46,7 +48,7 @@ use frontend\models\Modalidadproy;
 
     <?= $form->field($model, 'costo')->textInput(['maxlength' => true]) ?>
     
-	<?php $dataModalidad = Modalidadproy::find()->all(); $dataModalidad = ArrayHelper::map($dataModalidad, 'ccof', 'modalidad')?>
+	
     <?= $form->field($model, 'ccof')->dropDownList($dataModalidad,['prompt'=>'Select...']); ?>
 
     <?php //$form->field($model, 'imprcronograma')->textInput() ?>
@@ -62,7 +64,7 @@ use frontend\models\Modalidadproy;
     <?php //$form->field($model, 'rehabilitado')->textInput() ?>
 </div>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::button('Guardar Cambios',['onclick' => '$("#proyecto-update").submit();','class'=>'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
