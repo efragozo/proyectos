@@ -169,7 +169,7 @@ class EntregablesController extends Controller
                 
                 
             } else {
-                print_r('no hay na');
+                print_r('no hay datos');
                 exit();
             }
             
@@ -248,8 +248,7 @@ class EntregablesController extends Controller
                         $model->categoria = $rowData[0][3];
                         $model->usuario = $rowData[0][4];
                         $model->revisor = $rowData[0][5];
-                        $model->save();
-                        
+                        $model->save();                        
                     }
         } else {
             return $erroresEncontrados;

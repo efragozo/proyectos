@@ -78,14 +78,14 @@ use yii\helpers\ArrayHelper;
                         'visible' => $rol<=2,
                         'items'=>[
                             ['label' => 'Proyectos', 'icon' => 'handshake-o text-info', 'url' => ['/proyectos-uno']],
-                            ['label' => 'Entregables', 'icon' => 'calendar-check-o text-danger', 'url' => ['/entregables/index2']],
+                            ['label' => 'Entregables', 'icon' => 'calendar-check-o text-danger', 'url' => ['/entregables/index2?sort=id']],
                         ]
                     ],
                     ['label' => 'Usuarios','icon' => 'user-plus text-warning','url' => ['/usuarios'],'visible' => $rol<=2]
                                    
                 ],
             ]),
-            //En este codigo generamos el menú administrativo en donde pondremos todas las funciones administrativas
+            //En este codigo generamos el menï¿½ administrativo en donde pondremos todas las funciones administrativas
             dmstr\widgets\Menu::widget(
                 [
                     'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],

@@ -35,7 +35,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'tiempoRevision') ?>
 
-    <?php // echo $form->field($model, 'estado') ?>
+    <?= $form->field($model, 'estado') ?>
 
     <?php // echo $form->field($model, 'vistoIni') ?>
 

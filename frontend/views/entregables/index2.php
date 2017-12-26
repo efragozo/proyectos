@@ -48,7 +48,7 @@ $rol = Permisos::find()->select('rol')->where(['idusuario' => $usuarioid]) ->one
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
+            'id',
             //'idProyecto',
             'codigo',
             'nombre',
@@ -58,7 +58,7 @@ $rol = Permisos::find()->select('rol')->where(['idusuario' => $usuarioid]) ->one
             // 'fechaInicio',
             // 'fechaEntrega',
             // 'tiempoRevision',
-            //'estado',
+            'estado',
             // 'vistoIni',
             // 'visto',
             // 'cfechaRev',
