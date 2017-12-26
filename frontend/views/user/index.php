@@ -12,19 +12,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php //Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create User', ['/signup'], ['class' => 'btn btn-success']) ?>
     </p>
+    <div class="box box-success">
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'tipoUsuario',
             'first_name',
             'last_name',
@@ -32,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'auth_key',
             // 'password_hash',
             // 'password_reset_token',
-            // 'email:email',
+            'email:email',
             // 'status',
             // 'created_at',
             // 'updated_at',
@@ -40,4 +41,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?></div></div>

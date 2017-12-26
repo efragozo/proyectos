@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="clientes-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php //Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
          ?>
          
     </p>
+    <div class="box box-success">
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -77,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?></div></div>
 		<?php
               Modal::begin([
                     'id' => 'modal',

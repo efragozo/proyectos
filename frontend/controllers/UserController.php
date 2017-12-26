@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\SignupForm;
 use frontend\models\User;
 use frontend\models\UserSearch;
 use yii\web\Controller;
@@ -82,15 +83,34 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = User::findOne($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $dataPost = Yii::$app->request->post()['User'];
+            $model->password_hash = (empty($dataPost['password']) == true) ? $model->password_hash : Yii::$app->security->generatePasswordHash($dataPost['password']);
+            $model->update();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
             ]);
         }
+    }
+    
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+        
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 
     /**

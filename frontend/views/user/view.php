@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
 
-$this->title = $model->id;
+$this->title = $model->first_name;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php //Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+<div class="box box-success">
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -33,14 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'first_name',
             'last_name',
             'username',
-            'auth_key',
+            /*'auth_key',
             'password_hash',
-            'password_reset_token',
+            'password_reset_token',*/
             'email:email',
-            'status',
+            /*'status',
             'created_at',
-            'updated_at',
+            'updated_at',*/
         ],
     ]) ?>
-
+</div>
 </div>

@@ -49,7 +49,7 @@ class Urls extends \yii\db\ActiveRecord
             'urlcronogrma' => 'Urlcronogrma',
         ];
     }
-    //Funcion para guardar aarchivos en una carpeta especifica
+    //Funcion para guardar archivos en una carpeta especifica
     public function upload(){
         if ($this->validate()) {
             $this->urlproyecto->saveAs('/web/uploads/' . $this->urlproyecto->baseName . '.' . $this->urlproyecto->extension);

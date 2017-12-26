@@ -22,6 +22,12 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    
+    /* public $username;
+    public $email; */
+    public $password;
+    //agregado
+    
     /**
      * @inheritdoc
      */
@@ -36,13 +42,35 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tipoUsuario', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['tipoUsuario', 'status'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'string'],
             [['first_name', 'last_name', 'username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
+//            [['username'], 'unique'],
+            
+//            ['username', 'trim'],
+//            ['username', 'required'],
+//            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+//            ['username', 'string', 'min' => 2, 'max' => 255],
+//            
+//            [['email'], 'unique'],
+//            ['email', 'trim'],
+//            ['email', 'required'],
+//            ['email', 'email'],
+//            ['email', 'string', 'max' => 255],
+//            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+//            
             [['password_reset_token'], 'unique'],
+            
+//            ['password', 'required'],
+            ['password', 'string', 'min' => 6],
+            
+            ['tipoUsuario', 'required'],
+            
+            ['first_name', 'required'],
+            
+            ['last_name', 'required'],
         ];
     }
 
@@ -65,5 +93,23 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+    
+    public function signup()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+        
+        $user = new User();
+        $user->tipoUsuario=$this->tipoUsuario;//Agregado
+        $user->first_name=$this->first_name;//Agregado
+        $user->last_name=$this->last_name;//Agregado
+        $user->username = $this->username;
+        $user->email = $this->email;
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        
+        return $user->save() ? $user : null;
     }
 }

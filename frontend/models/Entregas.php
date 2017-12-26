@@ -31,11 +31,15 @@ class Entregas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idRev'], 'integer'],
+            [['idRev'], 'string'],
+            [['idEntregable'], 'integer'],
             [['fechaEnvio'], 'safe'],
             [['descripcion', 'observacion'], 'string'],
+            [['descripcion'],'required',  'message' => 'Este campo es requerido'],
             [['ruta'], 'string', 'max' => 500],
+            [['ruta'],'required',  'message' => 'Este campo es requerido'],
             [['archivo'], 'string', 'max' => 300],
+            [['archivo'],'required',  'message' => 'Este campo es requerido'],
         ];
     }
 
@@ -46,12 +50,13 @@ class Entregas extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'idRev' => 'Id Rev',
-            'fechaEnvio' => 'Fecha Envio',
-            'descripcion' => 'Descripcion',
+            'idRev' => 'Revisor',
+            'idEntregable' => 'Entregable',
+            'fechaEnvio' => 'Fecha Envío',
+            'descripcion' => 'Descripción',
             'ruta' => 'Ruta',
             'archivo' => 'Archivo',
-            'observacion' => 'Observacion',
+            'observacion' => 'Observación',
         ];
     }
 }

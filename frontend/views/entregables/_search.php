@@ -25,9 +25,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'categoria') ?>
 
-    <?php // echo $form->field($model, 'usuario') ?>
+    <?= $form->field($model, 'usuario') ?>
 
-    <?php // echo $form->field($model, 'revisor') ?>
+    <?= $form->field($model, 'revisor') ?>
 
     <?php // echo $form->field($model, 'fechaInicio') ?>
 

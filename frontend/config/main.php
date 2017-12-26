@@ -90,7 +90,7 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 //Aquí­ agregas las url amigables, atribuir la direccion de la vista
-               'index'          => 'site/index',  
+               'home'          => 'site/index',  
                'hola-eder'      => 'site/holaeder',
                'ingreso-frontend' => 'site/login',
                'salida'         => 'site/logout',
@@ -99,8 +99,9 @@ return [
                'request-password-reset' => 'site/requestPasswordResetToken',
                'signup' => 'site/signup',
                'proyectos-uno' => 'proyectos/',
-               'entregables' => 'entregables',
-               'usuarios'=>'user',
+               'tareas-entregables' => 'entregables',
+               'usuarios'=>'user'
+                
                
             ],
         ],

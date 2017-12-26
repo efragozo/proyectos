@@ -7,7 +7,9 @@ use frontend\models\Entregas;
 use frontend\models\EntregasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\widgets\ActiveForm;
 use yii\filters\VerbFilter;
+use frontend\models\Entregables;
 
 /**
  * EntregasController implements the CRUD actions for Entregas model.
@@ -33,10 +35,10 @@ class EntregasController extends Controller
      * Lists all Entregas models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new EntregasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -61,15 +63,34 @@ class EntregasController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
+        $entregables = Entregables::find();
+        
+        $entregables = $entregables->where(['id'=>$id])->one();
+        //print_r($entregables);
+        //exit();
         $model = new Entregas();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+               
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            //$entregables = $entregables->where(['id'=>$id])->one();            
+            $entregables->estado = 1;
+            
+            /* Cuando el modelo de se guarda tambien se actualiza entregables con el estado 1 */
+            if ($model->save()){
+                $entregables->update();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
+        } else {            
+            return $this->renderAjax('create', [
                 'model' => $model,
+                //'id' => $id
+                'entregables' => $entregables                
             ]);
         }
     }
@@ -83,11 +104,16 @@ class EntregasController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }

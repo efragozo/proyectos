@@ -1,42 +1,45 @@
 <?php
 
+use frontend\models\Tipousuario;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
 /* @var $form yii\widgets\ActiveForm */
+
+
+$this->title = 'Signup';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="site-signup">
+    <h1><?= Html::encode($this->title) ?></h1>
 
-<div class="user-form">
+    <p>Please fill out the following fields to signup:</p>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <div class="row">
+        <div class="col-lg-5">
+            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+                
+                <?php $data = Tipousuario::find()->all(); 
+                       $data = ArrayHelper::map($data, 'id', 'descripcion')
+                ?>
+                <?= $form->field($model, 'tipoUsuario')->dropDownList($data,['prompt'=>'Select...'],['autofocus' => true]) ?>
+            
+                <?= $form->field($model, 'first_name')->textInput() ?>
+            
+                <?= $form->field($model, 'last_name')->textInput() ?>
+            
+                <?= $form->field($model, 'username')->textInput(/*['autofocus' => true]*/) ?>
 
-    <?= $form->field($model, 'tipoUsuario')->textInput() ?>
+                <?= $form->field($model, 'email') ?>
 
-    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'password')->passwordInput() ?>
 
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'password_reset_token')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+                <div class="form-group">
+                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                </div>
 
     <?php ActiveForm::end(); ?>
 

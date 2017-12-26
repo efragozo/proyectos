@@ -1,31 +1,41 @@
 <?php
 use yii\helpers\Html;
+use frontend\models\Permisos;
 use frontend\models\Proyectos;
 use frontend\models\Tiposproyectos;
 use frontend\models\Tipousuario;
+use frontend\models\Entregables;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
 
 <header class="main-header">
-<!-- <img src=" $directoryAsset /img/logoisesproy.png" class="img-circle" alt="User Image"/> Yii::$app->name -->
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg img-circle">' .'<img src="/advanced/frontend/web/images/logoisesproy.png' . '" width="20%"/></span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
+<!-- <img src=" $directoryAsset /img/logoisesproy.png" class="img-circle" alt="User Image"/> Yii::$app->name -->
+    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg img-circle">' .'<img src="/advanced/frontend/web/images/logoisesproy.png' .
+                '" width="15%"/></span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+
+<!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
 
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
             <span class="sr-only">Toggle navigation</span>
-        </a>
+		 </a>
 
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
-
+                <?php if (!Yii::$app->user->isGuest){
+                    /* Traemos los permisos para identificar si mostramos los proyectos o no */
+                    $usuarioid = Yii::$app->user->identity->id;
+                    $rol = Permisos::find()->select('rol')->where(['idusuario' => $usuarioid]) ->one()->rol;
+                    if ($rol<=3){      
+                ?>
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
+                        <i class="fa fa-briefcase"></i>
                         <span class="label label-success">
                         <?php  
                         /*Hacems un conteo de todos los proyectos abiertos y mostramos el numero de proyectos
@@ -53,7 +63,7 @@ use frontend\models\Tipousuario;
                               /*Traemos todos los proyectos creados y que se encuentran abiertos para mostrarle al usuario
                                * que tiene pendiente por terminar esos proyectos
                                * */
-                                $dataTproy = Proyectos::find()->all();
+                              $dataTproy = Proyectos::find()->where(['finalizado'=>'0'])->all();
                                 foreach ($dataTproy as $rows) {                                           
                                         
                                 ?>
@@ -63,7 +73,8 @@ use frontend\models\Tipousuario;
                                        <?= 
                                              Yii::$app->urlManager->createAbsoluteUrl(['proyectos/view?id='.$rows['id']])
                                         ?>
-                                        <?php echo "'>" ?> 
+                                        <?php echo "'" ?> >
+                                        <!-- asignamos el logo a cada registro encontrado --> 
                                         <div class="pull-left">                                                                              
                                             	<img src="/advanced/frontend/web/images/logoisesproy.png" class="img-circle"
                                              alt="User Image"/>
@@ -78,12 +89,12 @@ use frontend\models\Tipousuario;
                                         </i></small></p>
                                     </a>
                                 </li>
-                                <?php }?>
+                                <?php }?><!-- Finaliza la llave que muestar los proyectos abiertos  -->
                                 <!-- end message -->                                
                                 
                             </ul>
                         </li>
-                        <!-- creamos la url par que al dar ver todos se muestren todos los proyectos -->
+                        <!-- creamos la url para que al dar ver todos se muestren todos los proyectos -->
                         <li class="footer"><a <?php echo "href='" ?>
                                         <?= 
                                             Yii::$app->urlManager->createAbsoluteUrl(['/proyectos'])
@@ -97,128 +108,129 @@ use frontend\models\Tipousuario;
                     
                     <!-- -->
                 </li>
+                <?php 
+                        }
+                }
+                ?> 
+                <?php
+                //Verificamos que el usuario no sea invitado
+                if (!Yii::$app->user->isGuest){
+                          
+                ?>
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
+                        <span class="label label-warning">
+                        <?php  
+                        /*Hacemos un conteo de todos los proyectos abiertos y mostramos el numero de proyectos
+                         * en la etiqueta
+                         * */
+                               
+                            $usuario = Yii::$app->user->identity->username;
+                            $contaEntregables =  count(Entregables::find()->where(['estado' => '0']) -> andWhere(['usuario' => $usuario]) ->all());
+                            print_r($contaEntregables);                      
+                           
+                        ?>                        
+                        </span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
+                        <li class="header">	You have 
+                             				<?= $contaEntregables ?>
+                        					notifications
+                        </li>
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
+                               <?php                               
+                              /*Traemos todas las tareas o entregables creados y que se encuentran asignados al usuario logueado
+                               * para que pueda hacer la entrega de ellas.
+                               * */
+                               $dataEntregables = Entregables::find()->where(['estado' => '0']) -> andWhere(['usuario' => $usuario]) ->all();
+                               foreach ($dataEntregables as $rows) {                                           
+                                        
+                                ?>
                                 <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                    <!-- creamos la url a la vista donde se mostrará el proyecto seleccionado -->  
+                                    <a <?php echo "href='" ?>
+                                       <?= 
+                                             Yii::$app->urlManager->createAbsoluteUrl(['entregables/view?id='.$rows['id']])
+                                        ?>
+                                        <?php echo "'>" ?>
+                                        
+                                        <i class="fa fa-warning text-yellow"></i> 
+                                        <!-- traemos del foreach el nombre del proyecto -->                                            
+                                             	<?php print_r($rows['nombre'])?>
+                                            
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-warning text-yellow"></i> Very long description here that may
-                                        not fit into the page and may cause design problems
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-red"></i> 5 new members joined
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-user text-red"></i> You changed your username
-                                    </a>
-                                </li>
+                                                                
+                                 <?php }?><!-- Finaliza la llave que muestar los entregables abiertos  -->
                             </ul>
                          </li>
                        <li class="footer"><a href="#">View all</a></li>
+                       <!-- cerramos la llave del if en donde validamos si el usuario esta logueado -->
+                       <?php                     
+                                
+                        }
+                        ?> 
                     </ul>
                 </li>
                 <!-- Tasks: style can be found in dropdown.less -->
+                <?php
+                //Verificamos qu eel usuario no sea invitado
+                if (!Yii::$app->user->isGuest){
+                          
+                    $usuario = Yii::$app->user->identity->username;
+                    $contaEntregables =  count(Entregables::find()->where(['estado' => '1']) -> 
+                        andWhere(['revisor' => $usuario]) -> andWhere(['vistoIni' => '0'])->all());
+                    
+                ?>
                 <li class="dropdown tasks-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-flag-o"></i>
-                        <span class="label label-danger">9</span>
+                        <span class="label label-danger"><?php print_r($contaEntregables); ?></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 9 tasks</li>
+                        <li class="header">You have <?= $contaEntregables ?> tasks for check</li>
                         <li>
                             <!-- inner menu: contains the actual data -->
                             <ul class="menu">
+                            <?php                               
+                              /*Traemos todas las tareas o entregables creados y que se encuentran asignados al usuario logueado
+                               * para que pueda hacer la entrega de ellas.
+                               * */
+                            $dataEntregables = Entregables::find()->where(['estado' => '1']) ->
+                                               andWhere(['revisor' => $usuario]) -> andWhere(['vistoIni' => '0'])->all();
+                               foreach ($dataEntregables as $rows) {                                           
+                                        
+                                ?>
                                 <li><!-- Task item -->
-                                    <a href="#">
-                                        <h3>
-                                            Design some buttons
-                                            <small class="pull-right">20%</small>
-                                        </h3>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-aqua" style="width: 20%"
-                                                 role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
+                                    <!-- creamos la url a la vista donde se mostrará el proyecto seleccionado -->  
+                                    <a <?php echo "href='" ?>
+                                       <?= 
+                                             Yii::$app->urlManager->createAbsoluteUrl(['entregables/view?id='.$rows['id']])
+                                        ?>
+                                        <?php echo "'>" ?>
+                                        
+                                        <i class="fa fa-warning text-red"></i> 
+                                        <!-- traemos del foreach el nombre del proyecto -->                                            
+                                             	<?php print_r($rows['nombre'])?>
+                                            
                                     </a>
                                 </li>
+                                <?php }?><!-- Finaliza la llave que muestar los entregables abiertos  -->
                                 <!-- end task item -->
-                                <li><!-- Task item -->
-                                    <a href="#">
-                                        <h3>
-                                            Create a nice theme
-                                            <small class="pull-right">40%</small>
-                                        </h3>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-green" style="width: 40%"
-                                                 role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <span class="sr-only">40% Complete</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <!-- end task item -->
-                                <li><!-- Task item -->
-                                    <a href="#">
-                                        <h3>
-                                            Some task I need to do
-                                            <small class="pull-right">60%</small>
-                                        </h3>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-red" style="width: 60%"
-                                                 role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <span class="sr-only">60% Complete</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <!-- end task item -->
-                                <li><!-- Task item -->
-                                    <a href="#">
-                                        <h3>
-                                            Make beautiful transitions
-                                            <small class="pull-right">80%</small>
-                                        </h3>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-yellow" style="width: 80%"
-                                                 role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <span class="sr-only">80% Complete</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                
                                 <!-- end task item -->
                             </ul>
                         </li>
                         <li class="footer">
                             <a href="#">View all tasks</a>
                         </li>
+                         <?php                     
+                                
+                        }
+                        ?> 
                     </ul>
                 </li>
                 <!-- User Account: style can be found in dropdown.less -->
@@ -256,7 +268,7 @@ use frontend\models\Tipousuario;
                             </p>
                         </li>
                         <!-- Menu Body -->
-                         <!-- <li class="user-body">
+                        <!--  <li class="user-body">
                             <div class="col-xs-4 text-center">
                                 <a href="#">Followers</a>
                             </div>
@@ -265,8 +277,8 @@ use frontend\models\Tipousuario;
                             </div>
                             <div class="col-xs-4 text-center">
                                 <a href="#">Friends</a>
-                            </div>
-                        </li>-->
+                            </div> -->
+                        </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">

@@ -3,6 +3,7 @@ namespace common\models;
 
 use Yii;
 use yii\base\NotSupportedException;
+use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -42,11 +43,18 @@ class User extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }
+        {
+            return [
+                   'timestamp' => [
+                    'class' => 'yii\behaviors\TimestampBehavior',
+                       'attributes' =>[
+                       ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                       ActiveRecord::EVENT_BEFORE_UPDATE =>['updated_at'],    
+                       ],
+                       'value' => new Expression('NOW()'),
+                   ],             
+            ];
+        }
 
     /**
      * @inheritdoc

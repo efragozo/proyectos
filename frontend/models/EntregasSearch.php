@@ -39,9 +39,10 @@ class EntregasSearch extends Entregas
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $id)
     {
         $query = Entregas::find();
+        $entregables = Entregables::findOne($id);
 
         // add conditions that should always apply here
 
@@ -62,6 +63,7 @@ class EntregasSearch extends Entregas
             'id' => $this->id,
             'idRev' => $this->idRev,
             'fechaEnvio' => $this->fechaEnvio,
+            'idEntregable' => (empty($entregables->id)) ? $this->idEntregable : $entregables->id,
         ]);
 
         $query->andFilterWhere(['like', 'descripcion', $this->descripcion])

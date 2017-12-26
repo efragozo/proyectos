@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use frontend\models\Modalidadproy;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Proyectos */
@@ -20,11 +21,17 @@ use frontend\models\Modalidadproy;
           ]); 
     ?>
 
-    <?= $form->field($model, 'fechaFinInterna')->widget(\yii\jui\DatePicker::classname(), [
-    //'language' => 'ru',
-        'dateFormat' => 'yyyy-MM-dd',
-        'options' => ['placeholder' => 'AAAA-MM-DD','style'=>'width:100%;'],
-    ])->label(false)?>
+    <?= $form->field($model, 'fechaFinInterna')->widget(DatePicker::classname(), [
+    //'language' => 'es',
+        'name' => 'datetime_1',
+        'options' => ['placeholder' => 'AAAA-MM-DDS','style'=>'width:100%;'],
+        'convertFormat' => true,           
+        'pluginOptions' => [
+            'language' => 'en',
+            'autoclose' => true,
+            'format' => 'yyyy-MM-dd',
+        ]
+    ])?>
 	<!--  -->
 
     <div class="form-group">

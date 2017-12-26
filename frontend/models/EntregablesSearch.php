@@ -18,8 +18,8 @@ class EntregablesSearch extends Entregables
     public function rules()
     {
         return [
-            [['id', 'idProyecto', 'usuario', 'revisor', 'tiempoRevision', 'estado', 'vistoIni', 'visto', 'cfechaRev', 'cfechaUsu', 'cambioRev'], 'integer'],
-            [['codigo', 'nombre', 'categoria', 'fechaInicio', 'fechaEntrega'], 'safe'],
+            [['id', 'idProyecto',  'tiempoRevision', 'estado', 'vistoIni', 'visto', 'cfechaRev', 'cfechaUsu', 'cambioRev'], 'integer'],
+            [['codigo', 'nombre', 'categoria', 'usuario', 'revisor', 'fechaInicio', 'fechaEntrega'], 'safe'],
         ];
     }
 
@@ -39,10 +39,10 @@ class EntregablesSearch extends Entregables
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $id)
     {
         $query = Entregables::find();
-
+        $proyecto = Proyectos::findOne($id);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -60,13 +60,13 @@ class EntregablesSearch extends Entregables
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'idProyecto' => $this->idProyecto,
+            'idProyecto' => (empty($proyecto->id)) ? $this->idProyecto : $proyecto->id,
             'usuario' => $this->usuario,
             'revisor' => $this->revisor,
             'fechaInicio' => $this->fechaInicio,
             'fechaEntrega' => $this->fechaEntrega,
             'tiempoRevision' => $this->tiempoRevision,
-            'estado' => $this->estado,
+            'estado' =>(empty($proyecto->id)) ? $this->estado : 0,
             'vistoIni' => $this->vistoIni,
             'visto' => $this->visto,
             'cfechaRev' => $this->cfechaRev,

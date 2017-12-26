@@ -81,8 +81,8 @@ class Proyectos extends \yii\db\ActiveRecord
         {
             return [
                 'id' => 'ID',
-                'nombreProyecto' => 'Nombre Proyecto',
-                'idCliente' => 'Id Clíente',
+                'nombreProyecto' => 'Nombre del Proyecto',
+                'idCliente' => 'Clíente',
                 'fechaCreado' => 'Fecha Creación',
                 'fechaFinInterna' => 'Fecha Fin Interna',
                 'fechaFin' => 'Fecha Fin',
@@ -90,12 +90,12 @@ class Proyectos extends \yii\db\ActiveRecord
                 'centroCosto' => 'Centro Costo',
                 'costo' => 'Costo del proyecto',
                 'ccof' => 'Tipo de Modalidad',
-                'imprcronograma' => 'Cronograma impreso',
+                'imprcronograma' => 'Cronograma Impreso',
                 'cronograma' => 'Cronograma',
                 'entregables' => 'Entregables',
-                'finalizado' => 'Finalizado',
+                'finalizado' => 'Estado',
                 'fechaSolic' => 'Fecha Orden de Inicio',
-                'rehabilitado' => 'Rehabilitado',
+                'rehabilitado' => 'Reactivar Proyecto',
             ];
         }
         
@@ -135,7 +135,7 @@ class Proyectos extends \yii\db\ActiveRecord
         {
             if ($data==1)
             {
-                return ('Finalizado');
+                return ('Entregado');
                 }
                 else {
                 return ('Activo');

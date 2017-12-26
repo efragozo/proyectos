@@ -30,40 +30,23 @@ use frontend\models\Modalidadproy;
              
                 <?= $form->field($model, 'idCliente')->dropDownList($dataCli,['prompt'=>'Select...']);?>
                 
-                <?php //$form->field($model, 'idCliente')->textInput() ?>
-            
-                <?php //$form->field($model, 'fechaCreado')->textInput() ?>
-            
-                <?php // $form->field($model, 'fechaFinInterna')->textInput() ?>
-            
-                <?php //$form->field($model, 'fechaFin')->textInput() ?>
-                
+                                
                 <!-- Creamos dropdownlist con los tipos de proyectos -->
                   
                 <?= $form->field($model, 'tipoProyecto')->dropDownList($dataTproy, ['prompt'=>'Select...']);?>
                 
             </div>    
            <div class="col-md-5">
-                <?php //$form->field($model, 'tipoProyecto')->textInput() ?>
+                
             
                 <?= $form->field($model, 'centroCosto')->textInput(['maxlength' => true]) ?>
             
                 <?= $form->field($model, 'costo')->textInput(['maxlength' => true]) ?>
                 
-            
+                <!-- Creamos dropdownlist con las modalidades -->
                 <?= $form->field($model, 'ccof')->dropDownList($dataModalidad,['prompt'=>'Select...']); ?>
             
-                <?php //$form->field($model, 'imprcronograma')->textInput() ?>
-            
-                <?php //$form->field($model, 'cronograma')->textInput() ?>
-            
-                <?php //$form->field($model, 'entregables')->textInput() ?>
-            
-                <?php //$form->field($model, 'finalizado')->textInput() ?>
-            
-                <?php //$form->field($model, 'fechaSolic')->textInput() ?>
-            
-                <?php //$form->field($model, 'rehabilitado')->textInput() ?>
+                
             </div>  
      </div>
 </div>

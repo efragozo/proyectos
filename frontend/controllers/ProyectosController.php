@@ -185,7 +185,62 @@ class ProyectosController extends Controller
             ]);
         }
     }
+    /* Con esta funcion usamos o actualizamos la fecha de solicitud unicamente */
+    public function actionUpdate4($id)
+    {
+        $model = $this->findModel($id);
+        
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->renderAjax('update4', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
+    /* Con esta funcion usamos o actualizamos la fecha de solicitud unicamente */
+    public function actionUpdate_imp_cronograma($id)
+    {
+        $model = $this->findModel($id);
+        
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->renderAjax('update_imp_cronograma', [
+                'model' => $model,
+            ]);
+        }
+    }
 
+    /* Con esta funcion usamos o actualizamos fin de proyecto aqui finalizamos el proyecto */
+    public function actionUpdate_fin_proyecto($id)
+    {
+        $model = $this->findModel($id);
+        
+        if(Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = 'json';
+            return ActiveForm::validate($model);
+        }
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->renderAjax('update_fin_proyecto', [
+                'model' => $model,
+            ]);
+        }
+    }
     /**
      * Deletes an existing Proyectos model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

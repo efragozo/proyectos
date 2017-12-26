@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proyectos-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php //Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             /*Html::a('Create Proyectos', ['create'], ['class' => 'btn btn-success'])*/ 
             ?>
     </p>
+    <div class="box box-success">
     <?php Pjax::begin(); ?>    
     <?= GridView::widget([
             
@@ -110,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                
             ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?></div></div>
 
 		<?php
             Modal::begin([

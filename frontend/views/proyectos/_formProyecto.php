@@ -40,7 +40,7 @@ use frontend\models\Modalidadproy;
     <!-- Creamos dropdownlist con los tipos de proyectos -->
        
     <?= $form->field($model, 'tipoProyecto')->dropDownList($dataTproy, ['prompt'=>'Select...']);?>
-    </div>
+</div>
 <div class="col-lg-6">
     <?php //$form->field($model, 'tipoProyecto')->textInput() ?>
 
